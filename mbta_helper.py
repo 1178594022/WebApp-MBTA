@@ -36,7 +36,7 @@ def get_lat_long(place_name):
     Location = (response_data['results'][0]['locations'][0]['displayLatLng']['lat'],response_data['results'][0]['locations'][0]['displayLatLng']['lng'])
     return Location
 
-print(get_lat_long('Boston,MA'))
+# print(get_lat_long('Boston,MA'))
 
 
 def get_nearest_station(latitude, longitude):
@@ -47,28 +47,42 @@ def get_nearest_station(latitude, longitude):
     formatting requirements for the 'GET /stops' API.
     """
     APIKEY = 'db0316857dfa4ca7883570a48992b29d'
-    location  = place_name
-    url = f'https://www.mbta.com/data/{inlatitudedex}/attributes/latitude, /data/{index}/attributes/longitude'
+    url = f'https://api-v3.mbta.com/stops?api_key={APIKEY}&sort=distance&filter%5Blatitude%5D={latitude}&filter%5Blongitude%5D={longitude}'
     f = urllib.request.urlopen(url)
     response_text = f.read().decode('utf-8')
     response_data = json.loads(response_text)
-    Location = (response_data['results'][0]['locations'][0]['displayLatLng']['lat'],response_data['results'][0]['locations'][0]['displayLatLng']['lng'])
-    return Location
+    wheel = ''
+    n = 0
+    while wheel is not 'Wheel Chair Accessible':
+        wheel1 = int(response_data['data'][n]['attributes']['wheelchair_boarding'])
+        if wheel1 == 1:
+            wheel = 'Wheel Chair Accessible'
+        elif wheel1 == 2:
+            wheel = 'Wheel Chair Inaccessible'
+        else: wheel = 'Accessibility: No Information'
+        n+1
+    info = (response_data['data'][0]['attributes']['name'],wheel)
+    return info
     
-
+    
+    
+# print(get_nearest_station(42.358894,-71.056742))
 
 def find_stop_near(place_name):
     """
     Given a place name or address, return the nearest MBTA stop and whether it is wheelchair accessible.
     """
-    pass
-
+    lat_long = get_lat_long(place_name)
+    lat = lat_long[0]
+    longtitude = lat_long[1]
+    return get_nearest_station(lat,longtitude)
+    
 
 def main():
     """
     You can test all the functions here
     """
-    pass
+    print(find_stop_near(Newton, MA)
 
 
 if __name__ == '__main__':
