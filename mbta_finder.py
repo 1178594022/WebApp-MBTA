@@ -1,10 +1,10 @@
-# Useful URLs (you need to add the appropriate parameters for your requests)
-MAPQUEST_BASE_URL = "http://www.mapquestapi.com/geocoding/v1/address"
-MBTA_BASE_URL = "https://api-v3.mbta.com/stops"     
+# # Useful URLs (you need to add the appropriate parameters for your requests)
+# MAPQUEST_BASE_URL = "http://www.mapquestapi.com/geocoding/v1/address"
+# MBTA_BASE_URL = "https://api-v3.mbta.com/stops"     
 
-# Your API KEYS (you need to use your own keys - very long random characters)
-MAPQUEST_API_KEY = ""
-MBTA_API_KEY = ""
+# # Your API KEYS (you need to use your own keys - very long random characters)
+# MAPQUEST_API_KEY = ""
+# MBTA_API_KEY = ""
 
 
 # A little bit of scaffolding if you want to use it
@@ -53,7 +53,7 @@ def get_nearest_station(latitude, longitude):
     response_data = json.loads(response_text)
     wheel = ''
     n = 0
-    while wheel is not 'Wheel Chair Accessible':
+    while wheel != 'Wheel Chair Accessible':
         wheel1 = int(response_data['data'][n]['attributes']['wheelchair_boarding'])
         if wheel1 == 1:
             wheel = 'Wheel Chair Accessible'
@@ -77,13 +77,12 @@ def find_stop_near(place_name):
     longtitude = lat_long[1]
     return get_nearest_station(lat,longtitude)
     
-
+# print(find_stop_near('Newton,MA'))
 def main():
     """
     You can test all the functions here
     """
-    print(find_stop_near(Newton, MA)
-
+    # print(find_stop_near('Newton, MA'))
 
 if __name__ == '__main__':
     main()
